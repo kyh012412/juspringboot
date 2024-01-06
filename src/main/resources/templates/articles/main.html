@@ -1,0 +1,27 @@
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!--header-->
+<div>
+  <th:block th:replace="articles/header ::headerFragment"></th:block>
+</div>
+
+<span th:text="${username}"></span>님 반갑습니다
+
+<form class="container" action="/articles/create" method="post">
+  <div class="mb-3">
+    <label class="form-label">제목</label>
+    <input type="text" class="form-control" name="title">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">내용</label>
+    <textarea class="form-control" rows="3" name="content"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">전송</button>
+</form>
+<!--footer-->
+<div>
+  <th:block th:replace="articles/footer ::footerFragment"></th:block>
+</div>
