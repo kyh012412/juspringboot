@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import ch.qos.logback.core.CoreConstants;
 import com.example.demo.dto.ArticleForm;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
