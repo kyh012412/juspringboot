@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class HelloController {
         Article saved = articleRepository.save(article);
         System.out.println(saved.toString());
 
-        return "articles/main";
+        return "redirect:/articles/"+saved.getId();
     }
 
     @GetMapping("/articles/{id}")
