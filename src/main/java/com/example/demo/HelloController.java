@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Controller
 public class HelloController {
@@ -68,20 +69,28 @@ public class HelloController {
         return "articles/main";
     }
 
-    @GetMapping("articles/{id}")
+    @GetMapping("/articles/{id}")
     public String show(@PathVariable Long id,Model model){
         //1. id를 조회해 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
-        if(articleEntity != null)
-            System.out.println(articleEntity.toString());
-        else
-            System.out.println("널임");
+
         //2. 모델에 데이터 등록
         model.addAttribute("article",articleEntity);
 
         //3.뷰 페이지 반환
-
-        
         return "articles/show";
+    }
+
+    //데이터 리스트 조회
+    @GetMapping("/articles")
+    public String index(Model model){
+        //1. 모든 데이터 가져오기
+        ArrayList<Article> articlesEntityList = articleRepository.findAll();
+
+        //2. 모델에 데이터 등록
+        model.addAttribute("articleList",articlesEntityList);
+
+        //3. 뷰페이지 설정
+        return "articles/index";
     }
 }
