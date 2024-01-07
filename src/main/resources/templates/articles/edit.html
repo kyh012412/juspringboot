@@ -1,0 +1,31 @@
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<!--header-->
+<div>
+  <th:block th:replace="articles/header ::headerFragment"></th:block>
+</div>
+
+<a class="btn btn-primary" th:href="@{'/articles'}">전체리스트</a>
+<a class="btn btn-primary" th:href="@{'/article'}">새 글 쓰기</a>
+
+<form class="container" th:action="@{/articles/update}" method="post">
+    <input name="id" type="hidden" th:value="${article.id}">
+    <div class="mb-3">
+        <label class="form-label">제목</label>
+        <input type="text" class="form-control" name="title" th:value="${article.title}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">내용</label>
+        <textarea class="form-control" rows="3" name="content" th:value="${article.content}"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">전송</button>
+
+    <a class="btn btn-primary" th:href="@{'/articles/'+${article.id}+'/edit'}">back</a>
+</form>
+
+<!--footer-->
+<div>
+  <th:block th:replace="articles/footer ::footerFragment"></th:block>
+</div>

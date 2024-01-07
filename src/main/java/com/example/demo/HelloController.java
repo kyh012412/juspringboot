@@ -94,4 +94,30 @@ public class HelloController {
         //3. 뷰페이지 설정
         return "articles/index";
     }
+
+    //데이터 수정
+    @GetMapping("/articles/{id}/edit")
+    public String edit(@PathVariable Long id,Model model){
+        //1. 수정할 데이터를 id를 조회해서 가져오기
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+
+        //2. 모델에 데이터 등록
+        model.addAttribute("article",articleEntity);
+
+        //3.뷰 페이지 반환
+        return "articles/edit";
+    }
+
+    //데이터 실제 수정 db 업데이트
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form){
+        //1.dto를 entity변환
+        Article articleEntity = form.toEntity();
+        //2. 엔티티를 db에 저장
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
+        if(target!=null){
+            articleRepository.save(articleEntity);
+        }
+        return "redirect:/articles/"+articleEntity.getId();
+    }
 }

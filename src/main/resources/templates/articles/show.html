@@ -6,6 +6,10 @@
   <th:block th:replace="articles/header ::headerFragment"></th:block>
 </div>
 
+<a class="btn btn-primary" th:href="@{/articles}">전체리스트</a>
+<a class="btn btn-primary" th:href="@{'/articles/' + ${article.id}+'/edit'}">수정하기</a>
+<a class="btn btn-primary" th:href="@{/article}">새 글 쓰기</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,7 +30,6 @@
         <th><span th:text="${article.ip}"></span></th>
     </tr>
 </table>
-<a th:href="/article">새로 데이터 넣기</a>
 
 <!--footer-->
 <div>

@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleForm {
+    private Long id;
     private String title;
     private String content;
     private String date;
@@ -16,6 +17,6 @@ public class ArticleForm {
     private String ip;
 
     public Article toEntity(){
-        return new Article(null,title,content,date,time,ip);
+        return new Article(id,title,content,date,time,ip);
     }
 }
