@@ -1,0 +1,33 @@
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<!--header-->
+<div>
+  <th:block th:replace="articles/header ::headerFragment"></th:block>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">title</th>
+            <th scope="col">Content</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Ip</th>
+        </tr>
+    </thead>
+    <tr>
+        <th><span th:text="${article.id}"></span></th>
+        <th><span th:text="${article.title}"></span></th>
+        <th><span th:text="${article.content}"></span></th>
+        <th><span th:text="${article.date}"></span></th>
+        <th><span th:text="${article.time}"></span></th>
+        <th><span th:text="${article.ip}"></span></th>
+    </tr>
+</table>
+
+<!--footer-->
+<div>
+  <th:block th:replace="articles/footer ::footerFragment"></th:block>
+</div>

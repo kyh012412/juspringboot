@@ -3,17 +3,24 @@ package com.example.demo;
 import com.example.demo.dto.ArticleForm;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class HelloController {
 
     @Autowired//의존성 주입
     private ArticleRepository articleRepository;
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/hello")
     public String hello(Model model){
@@ -45,6 +52,12 @@ public class HelloController {
     @PostMapping("/articles/create")
     public String articleCreate(ArticleForm form){
         System.out.println(form.toString());
+        String date_time = (LocalDateTime.now()+"").split("\\.")[0];
+        form.setDate(date_time.split("T")[0]);
+        form.setTime(date_time.split("T")[1]);
+
+        form.setIp(request.getRemoteAddr());
+
         //1.dto를 엔티티로 변환
         Article article = form.toEntity();
         //2.리파지토리로 엔티티를 db에 저장
@@ -53,5 +66,22 @@ public class HelloController {
         System.out.println(saved.toString());
 
         return "articles/main";
+    }
+
+    @GetMapping("articles/{id}")
+    public String show(@PathVariable Long id,Model model){
+        //1. id를 조회해 데이터 가져오기
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        if(articleEntity != null)
+            System.out.println(articleEntity.toString());
+        else
+            System.out.println("널임");
+        //2. 모델에 데이터 등록
+        model.addAttribute("article",articleEntity);
+
+        //3.뷰 페이지 반환
+
+        
+        return "articles/show";
     }
 }
