@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class members {
+public class Members {
     @Id
     @GeneratedValue
     private Long m_idx;

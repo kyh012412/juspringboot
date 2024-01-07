@@ -17,7 +17,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label">내용</label>
-        <textarea class="form-control" rows="3" name="content" th:value="${article.content}"></textarea>
+        <textarea class="form-control" rows="3" name="content"  th:text="${article.content}" th:value="${article.content}"></textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">전송</button>
