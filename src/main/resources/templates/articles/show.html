@@ -9,6 +9,7 @@
 
 <a class="btn btn-primary" th:href="@{/articles}">전체리스트</a>
 <a class="btn btn-primary" th:href="@{'/articles/' + ${article.id}+'/edit'}">수정하기</a>
+<a class="btn btn-danger" th:href="@{'/articles/' + ${article.id}+'/delete'}">삭제하기</a>
 <a class="btn btn-primary" th:href="@{/article}">새 글 쓰기</a>
 
 <table class="table">

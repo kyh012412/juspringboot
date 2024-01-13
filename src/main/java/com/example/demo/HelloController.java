@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,36 +24,36 @@ public class HelloController {
     private HttpServletRequest request;
 
     @GetMapping("/hello")
-    public String hello(Model model){
+    public String hello(Model model) {
 
-        model.addAttribute("age",20);
+        model.addAttribute("age", 20);
         return "hello";
     }
 
     @GetMapping("/main")
-    public String main(Model model){
+    public String main(Model model) {
         //model.addAttribute("변수명","변수값");
-        model.addAttribute("username","kyh");
+        model.addAttribute("username", "kyh");
         return "main";
     }
 
     @GetMapping("/main3")
-    public String main2(Model model){
+    public String main2(Model model) {
         //model.addAttribute("변수명","변수값");
-        model.addAttribute("username","test");
+        model.addAttribute("username", "test");
         return "main3";
     }
 
     @GetMapping("/article")
-    public String article(Model model){
-        model.addAttribute("username","test");
+    public String article(Model model) {
+        model.addAttribute("username", "test");
         return "articles/main";//templates/articles/main.html
     }
 
     @PostMapping("/articles/create")
-    public String articleCreate(ArticleForm form){
+    public String articleCreate(ArticleForm form) {
         System.out.println(form.toString());
-        String date_time = (LocalDateTime.now()+"").split("\\.")[0];
+        String date_time = (LocalDateTime.now() + "").split("\\.")[0];
         form.setDate(date_time.split("T")[0]);
         form.setTime(date_time.split("T")[1]);
 
@@ -65,16 +66,16 @@ public class HelloController {
         Article saved = articleRepository.save(article);
         System.out.println(saved.toString());
 
-        return "redirect:/articles/"+saved.getId();
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("/articles/{id}")
-    public String show(@PathVariable Long id,Model model){
+    public String show(@PathVariable Long id, Model model) {
         //1. id를 조회해 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
 
         //2. 모델에 데이터 등록
-        model.addAttribute("article",articleEntity);
+        model.addAttribute("article", articleEntity);
 
         //3.뷰 페이지 반환
         return "articles/show";
@@ -82,12 +83,12 @@ public class HelloController {
 
     //데이터 리스트 조회
     @GetMapping("/articles")
-    public String index(Model model){
+    public String index(Model model) {
         //1. 모든 데이터 가져오기
         ArrayList<Article> articlesEntityList = articleRepository.findAll();
 
         //2. 모델에 데이터 등록
-        model.addAttribute("articleList",articlesEntityList);
+        model.addAttribute("articleList", articlesEntityList);
 
         //3. 뷰페이지 설정
         return "articles/index";
@@ -95,12 +96,12 @@ public class HelloController {
 
     //데이터 수정
     @GetMapping("/articles/{id}/edit")
-    public String edit(@PathVariable Long id,Model model){
+    public String edit(@PathVariable Long id, Model model) {
         //1. 수정할 데이터를 id를 조회해서 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
 
         //2. 모델에 데이터 등록
-        model.addAttribute("article",articleEntity);
+        model.addAttribute("article", articleEntity);
 
         //3.뷰 페이지 반환
         return "articles/edit";
@@ -108,14 +109,27 @@ public class HelloController {
 
     //데이터 실제 수정 db 업데이트
     @PostMapping("/articles/update")
-    public String update(ArticleForm form){
+    public String update(ArticleForm form) {
         //1.dto를 entity변환
         Article articleEntity = form.toEntity();
         //2. 엔티티를 db에 저장
         Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
-        if(target!=null){
+        if (target != null) {
             articleRepository.save(articleEntity);
         }
-        return "redirect:/articles/"+articleEntity.getId();
+        return "redirect:/articles/" + articleEntity.getId();
+    }
+
+    @GetMapping("/articles/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes rttr){
+        //1. 삭제할 대상 가져오기
+        Article target = articleRepository.findById(id).orElse(null); //데이터 찾기
+        //2. 대상 엔티티 삭제
+        if(target != null){
+            articleRepository.delete(target);
+            rttr.addFlashAttribute("msg","삭제됐습니다.");
+        }
+        //3. 결과 페이지로 반환
+        return "redirect:/articles";
     }
 }
