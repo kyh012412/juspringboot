@@ -20,6 +20,14 @@
         <label class="form-label">내용</label>
         <textarea class="form-control" rows="3" name="content"  th:text="${article.content}" th:value="${article.content}"></textarea>
     </div>
+    <div class="mb-3">
+       <!-- <label class="form-label">작성날</label>-->
+        <input type="hidden" class="form-control" name="date" th:value="${article.date}">
+    </div>
+    <div class="mb-3">
+        <!--<label class="form-label">작성시간</label>-->
+        <input type="hidden" class="form-control" name="time" th:value="${article.time}">
+    </div>
 
     <button type="submit" class="btn btn-primary">전송</button>
 

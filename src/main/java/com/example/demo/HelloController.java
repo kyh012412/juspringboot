@@ -112,6 +112,12 @@ public class HelloController {
     public String update(ArticleForm form) {
         //1.dto를 entity변환
         Article articleEntity = form.toEntity();
+        String date_time = (LocalDateTime.now() + "").split("\\.")[0];
+        articleEntity.setDate(date_time.split("T")[0]);
+        articleEntity.setTime(date_time.split("T")[1]);
+
+        articleEntity.setIp(request.getRemoteAddr());
+
         //2. 엔티티를 db에 저장
         Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
         if (target != null) {
