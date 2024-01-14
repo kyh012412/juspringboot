@@ -27,4 +27,8 @@ public class Article {
     private String time;
     @Column
     private String ip;
+
+    public void patch(Article article){
+        
+    }
 }
