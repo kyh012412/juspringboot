@@ -33,6 +33,14 @@
     </tr>
 </table>
 
+<!--댓글 상세 페이지-->
+<div>
+    <th:block th:replace="articles/comments ::commentsFragment"></th:block>
+</div>
+<div>
+    <th:block th:replace="articles/new ::newFragment"></th:block>
+</div>
+
 <!--footer-->
 <div>
   <th:block th:replace="articles/footer ::footerFragment"></th:block>

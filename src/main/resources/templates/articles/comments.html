@@ -1,0 +1,18 @@
+<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<th:block th:fragment="commentsFragment">
+<div id="comments-list">
+
+    <div th:each="list : ${commentDtos}">
+        <div class="card m" id="comments">
+            <div class="card-header">
+                <span th:text="${list.nickname}"></span>
+            </div>
+            <div class="card-body">
+                <span th:text="${list.body}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+</th:block>

@@ -1,9 +1,13 @@
 package com.example.demo;
 
 import com.example.demo.dto.ArticleForm;
+import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Article;
 import com.example.demo.repository.ArticleRepository;
+import com.example.demo.service.ArticleSerivce;
+import com.example.demo.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +18,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Controller
+@Slf4j
 public class HelloController {
 
     @Autowired//의존성 주입
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private CommentService commentService;
+
     @Autowired
     private HttpServletRequest request;
 
@@ -71,12 +81,15 @@ public class HelloController {
 
     @GetMapping("/articles/{id}")
     public String show(@PathVariable Long id, Model model) {
+        log.info("id = "+id);
         //1. id를 조회해 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
 
+        List<CommentDto> commentDtos = commentService.comments(id);
         //2. 모델에 데이터 등록
         model.addAttribute("article", articleEntity);
 
+        model.addAttribute("commentDtos",commentDtos);
         //3.뷰 페이지 반환
         return "articles/show";
     }
