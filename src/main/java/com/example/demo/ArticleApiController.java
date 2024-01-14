@@ -41,33 +41,32 @@ public class ArticleApiController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 //
-//    @PatchMapping("/api/articles/{id}")
-//    public ResponseEntity<Article> update(@PathVariable Long id,@RequestBody ArticleForm dto){
-//        //1.dto -> entity 변환하기
-//        Article article = dto.toEntity();
-//        //2.타깃 조회
-//        Article target = articleRepository.findById(id).orElse(null);
-//        if(target==null || id != article.getId()){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//        }
-//        //4. 업데이트 및 정상 응답(200)
-//        Article updated = articleRepository.save(article);
-//        return ResponseEntity.status(HttpStatus.OK).body(updated);
-//    }
+    @PatchMapping("/api/articles/{id}")
+    public ResponseEntity<Article> update(@PathVariable Long id,@RequestBody ArticleForm dto){
+        //1.dto -> entity 변환하기
+        Article updated = articleSerivce.update(id,dto);
+        return (updated!=null)?
+                ResponseEntity.status(HttpStatus.OK).body(updated):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 //
 //    //delete 삭제
-//    @DeleteMapping("/api/articles/{id}")
-//    public ResponseEntity<Article> delete(@PathVariable Long id){
-//        //1. 대상찾기
-//        Article target = articleRepository.findById(id).orElse(null);
-//        //2. 잘못된 요청 처리
-//        if(target==null){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//        }
-//
-//        //3. 대상 삭제
-//        articleRepository.delete(target);
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Article> delete(@PathVariable Long id){
+        //1. 대상찾기
+        Article deleted = articleSerivce.delete(id);
+        //2. 잘못된 요청 처리
+        return (deleted!=null)?
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build():
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PostMapping("/api/transaction-test")
+    public ResponseEntity<List<Article>> transactionTest(@RequestBody List<ArticleForm> dtos){
+        List<Article> createdList = articleSerivce.createArticels(dtos);
+        return (createdList!=null)?
+                ResponseEntity.status(HttpStatus.OK).body(createdList):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
 }

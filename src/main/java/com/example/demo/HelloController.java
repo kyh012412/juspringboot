@@ -138,6 +138,7 @@ public class HelloController {
         //3. 결과 페이지로 반환
         return "redirect:/articles";
     }
+
     //PatchMapping
     //DeleteMapping
 }
