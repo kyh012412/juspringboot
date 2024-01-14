@@ -36,6 +36,7 @@ public class CommentRepositoryTest {
         List<Comment> expected = Arrays.asList(a,b,c);
         //4.비교 및 검증
         Assertions.assertEquals(expected.toString(),comments.toString());
+        System.out.println("테스트완료");
 
 
     }
